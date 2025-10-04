@@ -1,0 +1,16 @@
+/**:
+  ros__parameters:
+    vehicle_info:
+      wheel_base: 2.7
+      front_overhang: 1.0
+      rear_overhang: 1.0
+      left_overhang: 0.8
+      right_overhang: 0.8
+      vehicle_height: 1.5
+      max_steer_angle: 0.7
+      
+    vehicle_dynamics:
+      max_velocity: 15.0
+      max_acceleration: 3.0
+      max_deceleration: -5.0
+      max_steer_rate: 2.0

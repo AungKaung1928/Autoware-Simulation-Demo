@@ -1,0 +1,22 @@
+/**:
+  ros__parameters:
+    sensors:
+      lidar:
+        frame_id: "lidar"
+        topic: "/points_raw"
+        frequency: 10.0
+        range_min: 0.1
+        range_max: 100.0
+        
+      camera:
+        frame_id: "camera"
+        topic: "/image_raw"
+        frequency: 30.0
+        width: 640
+        height: 480
+        
+    planning:
+      frequency: 20.0
+      goal_tolerance: 0.5
+      max_linear_speed: 2.0
+      max_angular_speed: 1.0
