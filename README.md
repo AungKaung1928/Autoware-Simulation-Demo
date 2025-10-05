@@ -1,4 +1,4 @@
-# Autoware Simulation Demo
+# Autoware Simulation Demo Project
 
 A complete autonomous vehicle simulation using ROS2 Humble, modern C++17, and realistic vehicle dynamics. This project demonstrates core Autoware concepts including vehicle control, sensor simulation, and path planning.
 
