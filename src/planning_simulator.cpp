@@ -18,7 +18,7 @@ PlanningSimulator::PlanningSimulator() : Node("planning_simulator") {
         "/goal_pose", 10,
         std::bind(&PlanningSimulator::goal_callback, this, std::placeholders::_1));
     
-    // Timer for planning loop
+    // Timer for the planning loop
     planning_timer_ = create_wall_timer(
         std::chrono::milliseconds(static_cast<int>(1000.0 / planning_frequency_)),
         std::bind(&PlanningSimulator::planning_callback, this));
