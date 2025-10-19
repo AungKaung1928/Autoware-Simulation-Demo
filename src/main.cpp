@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     // Create executor for multi-threaded execution
     rclcpp::executors::MultiThreadedExecutor executor;
     
-    // Add nodes to executor
+    // Add nodes to the executor
     executor.add_node(vehicle_controller);
     executor.add_node(sensor_simulator);
     executor.add_node(planning_simulator);
