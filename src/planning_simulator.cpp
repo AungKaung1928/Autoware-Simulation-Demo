@@ -4,7 +4,13 @@
 namespace autoware_sim_demo {
 
 PlanningSimulator::PlanningSimulator() : Node("planning_simulator") {
-    
+    planning_frequency_ = declare_parameter<double>("planning_frequency", planning_frequency_);
+    max_linear_speed_ = declare_parameter<double>("max_linear_speed", max_linear_speed_);
+    max_angular_speed_ = declare_parameter<double>("max_angular_speed", max_angular_speed_);
+    goal_tolerance_ = declare_parameter<double>("goal_tolerance", goal_tolerance_);
+    linear_gain_ = declare_parameter<double>("linear_gain", linear_gain_);
+    angular_gain_ = declare_parameter<double>("angular_gain", angular_gain_);
+
     // Publishers
     cmd_vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
     path_pub_ = create_publisher<nav_msgs::msg::Path>("/planned_path", 10);
@@ -114,10 +120,10 @@ void PlanningSimulator::calculate_control_command() {
     
     if (distance > goal_tolerance_) {
         // Linear velocity proportional to distance
-        cmd_msg.linear.x = std::min(max_linear_speed_, 0.5 * distance);
+        cmd_msg.linear.x = std::min(max_linear_speed_, linear_gain_ * distance);
         
         // Angular velocity proportional to yaw error
-        cmd_msg.angular.z = std::clamp(2.0 * yaw_error, -max_angular_speed_, max_angular_speed_);
+        cmd_msg.angular.z = std::clamp(angular_gain_ * yaw_error, -max_angular_speed_, max_angular_speed_);
     } else {
         cmd_msg.linear.x = 0.0;
         cmd_msg.angular.z = 0.0;

@@ -1,0 +1,15 @@
+# Parameters actually read by the nodes. vehicle_info.param.yaml / sensor_kit.param.yaml are
+# loaded too but describe the URDF-level geometry only.
+planning_simulator:
+  ros__parameters:
+    planning_frequency: 20.0   # Hz
+    max_linear_speed: 2.0      # m/s cap on the P controller output
+    max_angular_speed: 1.0     # rad/s cap
+    goal_tolerance: 0.5        # m, stop radius around the goal
+    linear_gain: 0.5           # v = linear_gain * distance
+    angular_gain: 2.0          # w = angular_gain * yaw_error
+
+vehicle_controller:
+  ros__parameters:
+    control_frequency: 50.0    # Hz integration rate
+    command_smoothing: 0.1     # first-order filter weight on new commands (1.0 = none)

@@ -1,6 +1,13 @@
 # 🚗 Autoware Simulation Demo Project
 
-A complete autonomous vehicle simulation using ROS2 Humble, modern C++17, and realistic vehicle dynamics. This project demonstrates core Autoware concepts including vehicle control, sensor simulation, and path planning.
+A small self-contained ROS 2 Humble / C++17 vehicle simulation that uses the Autoware topic
+layout (`/points_raw`, `/image_raw`, `/odom`, `/goal_pose`): a planar kinematic vehicle with
+first-order command lag, placeholder LiDAR and camera publishers, and a proportional goal-seeking
+planner, visualised in RViz with a sedan URDF. **It does not depend on or run Autoware**; it is a
+teaching scaffold for the message flow, not a physics or planning stack.
+
+Verified 2026-09-05 (headless, no RViz): goal (20, 5) from the origin reached in 11 s, held at
+0.44 m (tolerance 0.5 m), all three nodes visible in `ros2 node list`.
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -27,15 +34,10 @@ This simulation provides a foundation for understanding autonomous vehicle syste
 ## Features
 
 - **Modern C++17** implementation with RAII, smart pointers, and lambda functions
-- **Bicycle Model Dynamics** - realistic vehicle physics simulation
+- **Planar kinematic vehicle** (unicycle: v and yaw rate) with a first-order lag on commands; not a bicycle/steering model
 - **Multi-threaded Execution** - concurrent node processing
-- **Sensor Simulation**:
-  - LiDAR point cloud generation (10 Hz)
-  - Camera image publishing (30 Hz)
-- **Path Planning**:
-  - Goal-based navigation
-  - Proportional control algorithm
-  - Dynamic path generation
+- **Placeholder sensors**: random-point `PointCloud2` at 10 Hz and a blank `Image` at 30 Hz, so downstream nodes have something to subscribe to
+- **Goal seeking**: straight-line `nav_msgs/Path` to the goal and a proportional controller on distance and heading (gains and limits in `config/planning.param.yaml`)
 - **3D Vehicle Model**:
   - Realistic sedan dimensions (4.6m × 1.8m × 1.5m)
   - Detailed components (hood, cabin, wheels, lights, mirrors)
@@ -61,7 +63,7 @@ autoware-simulation-demo/
 │       │   ├── sensor_simulator.cpp
 │       │   └── planning_simulator.cpp
 │       ├── launch/
-│       │   └── basic_simulation.launch.xml
+│       │   └── basic_simulation.launch.py
 │       ├── config/
 │       │   ├── vehicle_info.param.yaml
 │       │   └── sensor_kit.param.yaml
@@ -169,7 +171,7 @@ ros2 pkg executables autoware_sim_demo
 source ~/autoware-simulation-demo/install/setup.bash
 
 # Launch the simulation with RViz
-ros2 launch autoware_sim_demo basic_simulation.launch.xml
+ros2 launch autoware_sim_demo basic_simulation.launch.py
 ```
 
 This will start:
@@ -187,10 +189,12 @@ This will start:
 ros2 node list
 
 # Expected output:
-# /autoware_sim_demo
 # /joint_state_publisher
+# /planning_simulator
 # /robot_state_publisher
 # /rviz2
+# /sensor_simulator
+# /vehicle_controller
 ```
 
 ### Check Active Topics

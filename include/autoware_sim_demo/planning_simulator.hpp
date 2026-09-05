@@ -49,6 +49,8 @@ private:
     double max_linear_speed_{2.0};
     double max_angular_speed_{1.0};
     double goal_tolerance_{0.5};
+    double linear_gain_{0.5};
+    double angular_gain_{2.0};
 };
 
 }  // namespace autoware_sim_demo

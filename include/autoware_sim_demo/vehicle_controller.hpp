@@ -39,8 +39,8 @@ private:
     double target_linear_{0.0}, target_angular_{0.0};
     
     // Parameters
-    double wheel_base_{2.7};
     double control_frequency_{50.0};
+    double command_smoothing_{0.1};
 };
 
 }  // namespace autoware_sim_demo

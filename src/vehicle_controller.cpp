@@ -7,7 +7,9 @@ namespace autoware_sim_demo {
 
 VehicleController::VehicleController() 
     : Node("vehicle_controller") {
-    
+    control_frequency_ = declare_parameter<double>("control_frequency", control_frequency_);
+    command_smoothing_ = declare_parameter<double>("command_smoothing", command_smoothing_);
+
     // Publishers
     odom_pub_ = create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
     
@@ -28,11 +30,10 @@ VehicleController::VehicleController()
 }
 
 void VehicleController::control_callback() {
-    // Simple bicycle model integration
+    // Planar unicycle kinematics (v, yaw rate) with a first-order lag on the commands.
+    // Not a bicycle model: no steering angle or wheel base enters the integration.
     double dt = 1.0 / control_frequency_;
-    
-    // Update velocities with simple first-order dynamics
-    double alpha = 0.1;  // Smoothing factor
+    const double alpha = command_smoothing_;
     vx_ = alpha * target_linear_ + (1.0 - alpha) * vx_;
     vyaw_ = alpha * target_angular_ + (1.0 - alpha) * vyaw_;
     
