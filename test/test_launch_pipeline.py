@@ -22,7 +22,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from nav_msgs.msg import Odometry
 
-GOAL = (3.0, 2.0)
+GOAL = tuple(float(v) for v in os.environ.get('PIPELINE_GOAL', '3.0,2.0').split(','))  # CI also runs 20,5 (README headline)
 TOLERANCE = 0.5
 
 

@@ -34,6 +34,7 @@ jobs:
           cd src/autoware_sim_demo
           TRAJ_CSV=$GITHUB_WORKSPACE/trajectory.csv launch_test test/test_launch_pipeline.py
           python3 scripts/plot_trajectory.py $GITHUB_WORKSPACE/trajectory.csv $GITHUB_WORKSPACE/trajectory.svg
+          PIPELINE_GOAL=20,5 launch_test test/test_launch_pipeline.py   # README headline: goal (20, 5)
       - name: Upload the trajectory
         uses: actions/upload-artifact@v4
         with:
