@@ -69,6 +69,7 @@ class TestPipeline(unittest.TestCase):
             self.assertTrue(odom, 'no /odom: the pipeline did not start')
             reached = None
             start = time.monotonic()
+            first = len(odom)  # trace from the moment the goal is sent
             while time.monotonic() - start < 40.0:
                 goal_pub.publish(goal)
                 rclpy.spin_once(probe, timeout_sec=0.1)
@@ -83,5 +84,14 @@ class TestPipeline(unittest.TestCase):
             self.assertTrue(cmds and all(c.linear.x == 0.0 and c.angular.z == 0.0 for c in cmds[-3:]),
                             'planner still commands motion inside the goal tolerance')
             print(f'goal {GOAL} reached in {reached:.1f} s, final distance {dist():.2f} m')
+            trace = os.environ.get('TRAJ_CSV')  # optional: odometry trace for scripts/plot_trajectory.py
+            if trace:
+                t0 = odom[first].header.stamp.sec + odom[first].header.stamp.nanosec * 1e-9
+                with open(trace, 'w') as f:
+                    f.write(f'# goal {GOAL[0]} {GOAL[1]} tolerance {TOLERANCE}\nt,x,y\n')
+                    for o in odom[first:]:
+                        t = o.header.stamp.sec + o.header.stamp.nanosec * 1e-9 - t0
+                        p = o.pose.pose.position
+                        f.write(f'{t:.3f},{p.x:.4f},{p.y:.4f}\n')
         finally:
             probe.destroy_node()
