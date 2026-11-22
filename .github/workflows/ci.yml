@@ -28,3 +28,8 @@ jobs:
           source install/setup.bash
           ros2 pkg executables autoware_sim_demo | grep -q autoware_sim_demo
           test -f install/autoware_sim_demo/share/autoware_sim_demo/launch/basic_simulation.launch.py
+      - name: Pipeline launch test (shipped launch file, closed loop to a goal)
+        run: |
+          source install/setup.bash
+          cd src/autoware_sim_demo
+          launch_test test/test_launch_pipeline.py
