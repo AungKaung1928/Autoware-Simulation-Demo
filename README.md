@@ -2,7 +2,7 @@
 
 A small ROS 2 Humble / C++17 vehicle simulation that uses the Autoware topic layout (`/points_raw`, `/image_raw`, `/odom`, `/goal_pose`): a planar kinematic vehicle with first-order command lag, placeholder LiDAR and camera publishers, and a proportional goal-seeking planner, shown in RViz with a sedan URDF. It does not depend on or run Autoware; it is a teaching scaffold for the message flow, not a physics or planning stack.
 
-Verified 2026-09-05 (headless, no RViz): goal (20, 5) from the origin reached in 11 s, held at 0.44 m (tolerance 0.5 m), all three nodes visible in `ros2 node list`.
+Measured in CI on every push (headless, `test/test_launch_pipeline.py` with `PIPELINE_GOAL=20,5`): goal (20, 5) from the origin reached (inside the 0.5 m tolerance) in 12.3 s and held at 0.44 m (run 59dd8ba). A manual run on 2026-09-05 timed 11 s for the same goal.
 
 ## Quick start
 
