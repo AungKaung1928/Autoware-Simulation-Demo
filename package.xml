@@ -16,6 +16,11 @@
   <depend>nav_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
+  <!-- started by launch/basic_simulation.launch.py -->
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>rviz2</exec_depend>
 
   <test_depend>launch_testing</test_depend>
   <test_depend>launch_testing_ros</test_depend>
