@@ -354,8 +354,7 @@ ros2 pkg list | grep autoware_sim_demo
 **Problem**: Slow frame rate or lag
 
 **Solution**:
-- Reduce point cloud size in `sensor_kit.param.yaml`
-- Lower sensor frequencies
+- Reduce the point count or sensor rates: they are constants in `include/autoware_sim_demo/sensor_simulator.hpp` (`lidar_points_` 1000, `lidar_frequency_` 10 Hz, `camera_frequency_` 30 Hz); rebuild after editing. `sensor_kit.param.yaml` is not read by any node.
 - Reduce RViz display elements
 
 ## Technical Details
@@ -383,7 +382,7 @@ The simulation uses a multi-node architecture:
 
 ### Vehicle Dynamics
 
-**Limits** (`config/planning.param.yaml`, `config/vehicle_info.param.yaml`):
+**Limits** (speeds and tolerance from `config/planning.param.yaml`; the wheelbase and dimensions come from `vehicle_info.param.yaml`, which no node reads, so they are reference values only):
 - Wheelbase: 2.7m
 - Max linear velocity: 2.0 m/s
 - Max angular velocity: 1.0 rad/s

@@ -32,7 +32,7 @@ ros2 topic pub /goal_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: 'od
 | `sensor_simulator` | random-point `PointCloud2` on `/points_raw`, blank `Image` on `/image_raw` | 10 Hz / 30 Hz |
 | `planning_simulator` | straight-line `/planned_path` to `/goal_pose`, proportional control on distance and heading | 20 Hz |
 
-Gains, speed caps (2.0 m/s, 1.0 rad/s) and the goal tolerance live in `config/planning.param.yaml`. Rates are the defaults in `include/autoware_sim_demo/*.hpp`.
+Gains, speed caps (2.0 m/s, 1.0 rad/s) and the goal tolerance live in `config/planning.param.yaml`. `config/vehicle_info.param.yaml` and `config/sensor_kit.param.yaml` follow the Autoware file layout and are passed by the launch file, but no node declares those parameters, so ROS 2 ignores them. Rates are the defaults in `include/autoware_sim_demo/*.hpp`.
 
 Test without RViz: `cd src/autoware_sim_demo && launch_test test/test_launch_pipeline.py` (after `source install/setup.bash`) runs the shipped launch file with `use_rviz:=false`, sends a goal at (3.0, 2.0) and checks the loop gets inside the 0.5 m tolerance and then stops. In CI (`ros:humble`, every push): reached in 3.6-3.7 s, final distance 0.44-0.45 m over two runs (019e239, 6c1d5f4). The trace below is the `/odom` of run 6c1d5f4, drawn by `scripts/plot_trajectory.py` from the CI artifact.
 
